@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product — NEXO SELLS</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { padding-top: 72px; }
+
+    .product-page {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      padding: 80px 0 120px;
+    }
+
+    /* IMAGE */
+    .product-gallery {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+    }
+    .main-img {
+      aspect-ratio: 3/4;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .main-img img { width: 100%; height: 100%; object-fit: cover; }
+    .product-badge-large {
+      position: absolute;
+      top: 20px; left: 20px;
+      background: var(--red);
+      color: white;
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+    }
+
+    /* DETAILS */
+    .product-details { padding-top: 20px; }
+
+    .product-breadcrumb {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 24px;
+    }
+    .product-breadcrumb a { color: var(--dim); text-decoration: none; }
+    .product-breadcrumb a:hover { color: var(--red); }
+
+    .product-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
+    .product-subtitle {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 24px;
+    }
+    .product-price-large {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      margin-bottom: 32px;
+    }
+    .product-price-large span {
+      font-family: var(--font-ui);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+    }
+
+    .product-desc {
+      color: var(--dim);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 40px;
+      border-left: 2px solid var(--red);
+      padding-left: 20px;
+    }
+
+    /* OPTIONS */
+    .option-label {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 12px;
+    }
+    .option-label span { color: var(--white); }
+
+    .size-grid {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .size-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-width: 52px;
+    }
+    .size-btn:hover { border-color: var(--white); color: var(--white); }
+    .size-btn.active { background: var(--red); border-color: var(--red); color: white; }
+
+    .color-grid {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .color-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .color-btn:hover { border-color: var(--white); color: var(--white); }
+    .color-btn.active { border-color: var(--red); color: var(--white); background: rgba(232,0,29,0.1); }
+
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .qty-ctrl {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border);
+    }
+    .qty-btn {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.2rem;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .qty-btn:hover { background: var(--card); }
+    .qty-num {
+      width: 48px;
+      text-align: center;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      padding: 20px;
+      background: var(--red);
+      border: none;
+      color: white;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 12px;
+    }
+    .add-to-cart-btn:hover { background: var(--red-hot); transform: translateY(-2px); box-shadow: 0 8px 32px var(--red-glow); }
+
+    .buy-now-btn {
+      width: 100%;
+      padding: 20px;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    .buy-now-btn:hover { border-color: var(--red); color: var(--red); }
+
+    /* DETAILS ACCORDION */
+    .details-section { margin-top: 48px; border-top: 1px solid var(--border); }
+    .accordion-item { border-bottom: 1px solid var(--border); }
+    .accordion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .accordion-header:hover { color: var(--red); }
+    .accordion-arrow { transition: transform 0.3s; font-size: 0.7rem; }
+    .accordion-item.open .accordion-arrow { transform: rotate(180deg); }
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .accordion-body ul {
+      list-style: none;
+      padding-bottom: 20px;
+    }
+    .accordion-body li {
+      color: var(--dim);
+      font-size: 0.9rem;
+      padding: 6px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+    .accordion-body li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--red);
+    }
+
+    @media (max-width: 900px) {
+      .product-page { grid-template-columns: 1fr; gap: 40px; }
+      .product-gallery { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">NEXO<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Shop</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="cart.html" class="cart-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      BAG <span class="cart-count">0</span>
+    </a>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="menu-overlay"></div>
+<div class="side-menu">
+  <button class="menu-close">✕</button>
+  <a href="index.html">Home</a>
+  <a href="products.html">Shop</a>
+  <a href="faq.html">FAQ</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">Bag</a>
+</div>
+
+<div class="container">
+  <div class="product-page" id="productPage">
+    <div style="display:flex;align-items:center;justify-content:center;grid-column:1/-1;color:var(--dim);padding:120px 0;">
+      Loading product...
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">NEXO<span style="color:var(--red)">.</span></a>
+        <p>Streetwear for people who don't follow trends — they start them.</p>
+      </div>
+      <div class="footer-col"><h4>Shop</h4><a href="products.html">All Products</a></div>
+      <div class="footer-col"><h4>Help</h4><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Follow</h4><a href="#">Instagram</a><a href="#">TikTok</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Nexo Sells.</p>
+      <p style="color:var(--dim)">Made with 🔥 in Pakistan</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script src="products-data.js"></script>
+<script>
+  let selectedSize = null;
+  let selectedColor = null;
+  let qty = 1;
+  let product = null;
+
+  function initProduct() {
+    const id = parseInt(new URLSearchParams(window.location.search).get('id'));
+    product = PRODUCTS.find(p => p.id === id);
+    if (!product) {
+      document.getElementById('productPage').innerHTML = `
+        <div style="text-align:center;grid-column:1/-1;padding:120px 0;color:var(--dim)">
+          <p style="font-family:var(--font-display);font-size:3rem;margin-bottom:16px">PRODUCT NOT FOUND</p>
+          <a href="products.html" class="btn btn-red">Back to Shop</a>
+        </div>`;
+      return;
+    }
+
+    document.title = `${product.name} — NEXO SELLS`;
+    selectedSize = product.sizes[0];
+    selectedColor = product.colors ? product.colors[0] : null;
+
+    document.getElementById('productPage').innerHTML = `
+      <div class="product-gallery">
+        <div class="main-img">
+          ${product.image
+            ? `<img src="${product.image}" alt="${product.name}">`
+            : product.emoji || '📦'
+          }
+          ${product.badge ? `<div class="product-badge-large">${product.badge}</div>` : ''}
+        </div>
+      </div>
+
+      <div class="product-details">
+        <p class="product-breadcrumb">
+          <a href="products.html">Shop</a> / <a href="products.html?cat=${product.category}">${product.category}</a> / ${product.name}
+        </p>
+        <h1 class="product-title">${product.name.toUpperCase()}</h1>
+        <p class="product-subtitle">${product.category}</p>
+        <p class="product-price-large"><span>PKR</span> ${product.price.toLocaleString()}</p>
+        <p class="product-desc">${product.description}</p>
+
+        ${product.colors ? `
+        <p class="option-label">Color — <span id="colorLabel">${selectedColor}</span></p>
+        <div class="color-grid" id="colorGrid">
+          ${product.colors.map(c => `
+            <button class="color-btn ${c === selectedColor ? 'active' : ''}"
+              onclick="selectColor('${c}')">${c}</button>
+          `).join('')}
+        </div>` : ''}
+
+        <p class="option-label">Size — <span id="sizeLabel">${selectedSize}</span></p>
+        <div class="size-grid" id="sizeGrid">
+          ${product.sizes.map(s => `
+            <button class="size-btn ${s === selectedSize ? 'active' : ''}"
+              onclick="selectSize('${s}')">${s}</button>
+          `).join('')}
+        </div>
+
+        <p class="option-label" style="margin-bottom:12px">Quantity</p>
+        <div class="qty-row">
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <div class="qty-num" id="qtyDisplay">1</div>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <button class="add-to-cart-btn" onclick="addToCart()">ADD TO BAG</button>
+        <a href="cart.html" class="buy-now-btn" onclick="addToCart(); return true;">BUY NOW →</a>
+
+        <div class="details-section">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              Product Details <span class="accordion-arrow">▼</span>
+            </div>
+            <div class="accordion-body">
+              <ul>${product.details?.map(d => `<li>${d}</li>`).join('') || '<li>Details coming soon</li>'}</ul>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              Shipping Info <span class="accordion-arrow">▼</span>
+            </div>
+            <div class="accordion-body">
+              <ul>
+                <li>Dispatched within 24 hours</li>
+                <li>Delivery in ${SETTINGS.deliveryDays} business days nationwide</li>
+                <li>Free shipping on orders over PKR ${SETTINGS.freeShippingOver.toLocaleString()}</li>
+                <li>Cash on delivery available in select cities</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              Returns & Exchanges <span class="accordion-arrow">▼</span>
+            </div>
+            <div class="accordion-body">
+              <ul>
+                <li>7-day return window for unused items</li>
+                <li>Item must be in original condition with tags</li>
+                <li>Contact us via WhatsApp to initiate a return</li>
+                <li>Exchanges subject to stock availability</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function selectSize(size) {
+    selectedSize = size;
+    document.getElementById('sizeLabel').textContent = size;
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.toggle('active', b.textContent === size));
+  }
+
+  function selectColor(color) {
+    selectedColor = color;
+    document.getElementById('colorLabel').textContent = color;
+    document.querySelectorAll('.color-btn').forEach(b => b.classList.toggle('active', b.textContent === color));
+  }
+
+  function changeQty(delta) {
+    qty = Math.max(1, qty + delta);
+    document.getElementById('qtyDisplay').textContent = qty;
+  }
+
+  function addToCart() {
+    if (!selectedSize) { showToast('Pick a size first!'); return; }
+    for (let i = 0; i < qty; i++) {
+      Cart.add({ ...product, size: selectedSize, color: selectedColor });
+    }
+  }
+
+  function toggleAccordion(header) {
+    const item = header.parentElement;
+    const body = item.querySelector('.accordion-body');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.accordion-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.accordion-body').style.maxHeight = '0';
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  }
+
+  initProduct();
+</script>
+</body>
+</html>
