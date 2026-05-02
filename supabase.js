@@ -9,7 +9,7 @@
 // 5. Push to GitHub — Vercel will auto-deploy
 // ═══════════════════════════════════════════════════════════════
 
-const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';    // ← paste here
+const SUPABASE_URL = 'https://yapshqzfknpssoiklbcr.supabase.co';    // ← paste here
 const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY_HERE';                // ← paste here
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
