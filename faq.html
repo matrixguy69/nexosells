@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — NEXO SELLS</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { padding-top: 72px; }
+
+    .page-hero {
+      background: var(--dark);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 0 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(232,0,29,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 8rem);
+      line-height: 0.9;
+    }
+    .page-hero h1 span { color: var(--red); }
+    .page-hero p { color: var(--dim); margin-top: 16px; }
+
+    .faq-page { padding: 80px 0 120px; }
+
+    .faq-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    /* SIDEBAR NAV */
+    .faq-nav { position: sticky; top: 100px; }
+    .faq-nav-title {
+      font-family: var(--font-ui);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+    }
+    .faq-nav a {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    .faq-nav a:hover { color: var(--red); }
+
+    /* FAQ SECTIONS */
+    .faq-section { margin-bottom: 64px; }
+    .faq-section-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--red);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* ACCORDION */
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+      gap: 20px;
+    }
+    .faq-question:hover { color: var(--red); }
+    .faq-arrow {
+      font-size: 0.7rem;
+      color: var(--red);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .faq-answer-inner {
+      padding-bottom: 24px;
+      color: var(--dim);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+    .faq-answer-inner strong { color: var(--white); }
+    .faq-answer-inner a { color: var(--red); }
+
+    /* CONTACT CTA */
+    .faq-cta {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--red);
+      padding: 48px;
+      text-align: center;
+      margin-top: 60px;
+    }
+    .faq-cta h2 { font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 12px; }
+    .faq-cta p { color: var(--dim); margin-bottom: 28px; }
+    .faq-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 900px) {
+      .faq-layout { grid-template-columns: 1fr; }
+      .faq-nav { position: static; display: flex; gap: 8px; flex-wrap: wrap; }
+      .faq-nav a { border: 1px solid var(--border); padding: 8px 14px; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">NEXO<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Shop</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="cart-btn nav-login-link">Login</a>
+    <a href="account.html" class="nav-account-link"><div class="nav-account-avatar"><span class="nav-user-name" style="font-size:0.55rem">?</span></div><span class="nav-user-name">Account</span></a>
+    <a href="cart.html" class="cart-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      BAG <span class="cart-count">0</span>
+    </a>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="menu-overlay"></div>
+<div class="side-menu">
+  <button class="menu-close">✕</button>
+  <a href="index.html">Home</a>
+  <a href="products.html">Shop</a>
+  <a href="faq.html">FAQ</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">Bag</a>
+</div>
+
+<div class="page-hero">
+  <div class="container">
+    <p class="section-label">Got Questions?</p>
+    <h1>FREQ. ASKED<br><span>QUESTIONS</span></h1>
+    <p>Everything you need to know. If it's not here, hit us up.</p>
+  </div>
+</div>
+
+<div class="container faq-page">
+  <div class="faq-layout">
+
+    <!-- SIDEBAR -->
+    <nav class="faq-nav">
+      <p class="faq-nav-title">Jump To</p>
+      <a href="#orders">Orders</a>
+      <a href="#shipping">Shipping</a>
+      <a href="#payments">Payments</a>
+      <a href="#returns">Returns</a>
+      <a href="#products">Products</a>
+    </nav>
+
+    <!-- CONTENT -->
+    <div>
+
+      <!-- ORDERS -->
+      <div class="faq-section" id="orders">
+        <h2 class="faq-section-title">🛍️ Orders</h2>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            How do I place an order? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Simple. Browse the shop, pick your items and sizes, add them to your bag, fill in your delivery details on the cart page, choose your payment method, and hit <strong>Place Order</strong>. You'll then send your payment screenshot via WhatsApp to confirm.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            Can I order via WhatsApp? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes! You can click the <strong>Order via WhatsApp</strong> button in your cart and it'll send us your full order details automatically. We'll confirm availability and send you payment info.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            How do I know my order was confirmed? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              After you place your order and send your payment screenshot via WhatsApp, we'll confirm your order within <strong>1-2 hours</strong> (during business hours 10am–8pm). You'll get a WhatsApp reply with your confirmation.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            Can I cancel or modify my order? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              You can cancel or modify your order <strong>before it's dispatched</strong>. Message us on WhatsApp ASAP with your order number. Once it's shipped, we can't make changes.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHIPPING -->
+      <div class="faq-section" id="shipping">
+        <h2 class="faq-section-title">📦 Shipping</h2>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            How long does delivery take? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Orders are dispatched within <strong>24 hours</strong> of payment confirmation. Delivery takes <strong>3-5 business days</strong> nationwide depending on your city. Major cities like Karachi, Lahore, and Islamabad are usually faster.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            What's the shipping cost? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Shipping is <strong>PKR 200</strong> on all orders. Orders above <strong>PKR 2,000</strong> get <strong>FREE shipping</strong> — so add one more item and you're sorted.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            Do you deliver nationwide? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes — we deliver all across Pakistan. Even remote areas, just expect delivery to take a day or two longer.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            How do I track my order? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Once your order is dispatched, we'll send you a tracking number via WhatsApp. You can use it on the courier's website to track your package.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYMENTS -->
+      <div class="faq-section" id="payments">
+        <h2 class="faq-section-title">💸 Payments</h2>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            What payment methods do you accept? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              We accept <strong>JazzCash</strong>, <strong>EasyPaisa</strong>, and <strong>Cash on Delivery (COD)</strong> in select cities. More payment options coming soon.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            How does JazzCash/EasyPaisa payment work? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              1. Place your order on the website<br>
+              2. Send the exact total to our JazzCash or EasyPaisa number (shown during checkout)<br>
+              3. Take a screenshot of the transaction<br>
+              4. Send the screenshot to our WhatsApp<br>
+              5. We confirm and dispatch within 24 hours ✅
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            Is Cash on Delivery available? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes, COD is available in major cities. Select it during checkout. Note: COD orders may take slightly longer to process. COD fee of PKR 50 may apply.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            What if I sent the wrong amount? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Message us on WhatsApp immediately with your order number and the transaction screenshot. We'll sort it out for you.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RETURNS -->
+      <div class="faq-section" id="returns">
+        <h2 class="faq-section-title">↩️ Returns</h2>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            Can I return or exchange my order? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes. You have <strong>7 days</strong> from receiving your order to request a return or exchange. The item must be unused, unwashed, and in its original condition with tags attached.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            How do I initiate a return? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Message us on WhatsApp with:<br>
+              • Your order number<br>
+              • Photos of the item<br>
+              • Reason for return<br><br>
+              We'll guide you through the rest. Return shipping cost is on the customer unless the item is defective or wrong.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            What if I received a wrong or defective item? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              That's on us. Message us immediately with photos and we'll send a replacement or full refund — no questions asked.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="faq-section" id="products">
+        <h2 class="faq-section-title">👕 Products</h2>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            How do I find my size? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Our pieces are oversized/relaxed fit. If you're between sizes, go down a size. When in doubt, message us on WhatsApp with your measurements and we'll help you pick.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            Are your products restocked? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Some items are limited drops and won't restock. Follow us on Instagram and TikTok to get notified when new drops go live. Core items may restock — ask us on WhatsApp.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggle(this)">
+            How do I care for my Nexo pieces? <span class="faq-arrow">+</span>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              • Wash cold (30°C max)<br>
+              • Turn inside out before washing<br>
+              • Do not tumble dry — hang dry only<br>
+              • Do not bleach<br>
+              • Iron inside out on low heat
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="faq-cta">
+        <h2>STILL GOT QUESTIONS?</h2>
+        <p>We're literally one message away. Hit us up anytime.</p>
+        <div class="faq-cta-btns">
+          <a href="contact.html" class="btn btn-red">Contact Us</a>
+          <a href="https://wa.me/923XXXXXXXXX" target="_blank" class="btn btn-outline">💬 WhatsApp Us</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">NEXO<span style="color:var(--red)">.</span></a>
+        <p>Streetwear for people who don't follow trends.</p>
+      </div>
+      <div class="footer-col"><h4>Shop</h4><a href="products.html">All Products</a></div>
+      <div class="footer-col"><h4>Help</h4><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Follow</h4><a href="#">Instagram</a><a href="#">TikTok</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Nexo Sells. All rights reserved.</p>
+      <p style="color:var(--dim)">Made with 🔥 in Pakistan</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="main.js"></script>
+<script src="supabase.js"></script>
+<script src="products-data.js"></script>
+<script>
+  function toggle(header) {
+    const item = header.parentElement;
+    const answer = item.querySelector('.faq-answer');
+    const isOpen = item.classList.contains('open');
+
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-answer').style.maxHeight = '0';
+    });
+
+    if (!isOpen) {
+      item.classList.add('open');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+  }
+</script>
+</body>
+</html>

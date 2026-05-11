@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account — NEXO SELLS</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { padding-top: 72px; }
+    .account-layout { display: grid; grid-template-columns: 260px 1fr; gap: 48px; padding: 60px 0 120px; }
+    .account-sidebar { position: sticky; top: 100px; height: fit-content; }
+    .account-avatar { width: 64px; height: 64px; background: var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 1.5rem; color: white; margin-bottom: 16px; }
+    .account-name { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 4px; }
+    .account-email { font-size: 0.8rem; color: var(--dim); margin-bottom: 24px; }
+    .account-nav { display: flex; flex-direction: column; gap: 2px; }
+    .account-nav-btn { background: none; border: none; color: var(--dim); font-family: var(--font-ui); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 12px 16px; text-align: left; cursor: pointer; transition: all 0.2s; border-left: 2px solid transparent; }
+    .account-nav-btn:hover { color: var(--white); }
+    .account-nav-btn.active { color: var(--white); border-left-color: var(--red); background: rgba(232,0,29,0.06); }
+    .logout-btn { color: var(--red) !important; margin-top: 16px; }
+    .account-page { display: none; }
+    .account-page.active { display: block; }
+    .account-page-title { font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 8px; }
+    .account-page-sub { color: var(--dim); margin-bottom: 32px; }
+
+    /* ORDERS */
+    .order-card { background: var(--card); border: 1px solid var(--border); margin-bottom: 2px; overflow: hidden; }
+    .order-card-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+    .order-id { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; color: var(--dim); }
+    .order-date { font-size: 0.8rem; color: var(--dim); }
+    .order-badge { display: inline-flex; padding: 4px 12px; font-family: var(--font-ui); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 999px; }
+    .status-pending { background: rgba(234,179,8,0.15); color: #eab308; }
+    .status-confirmed { background: rgba(59,130,246,0.15); color: #3b82f6; }
+    .status-dispatched { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .status-delivered { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .status-cancelled { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .order-card-body { padding: 16px 20px; }
+    .order-items-list { font-size: 0.85rem; color: var(--dim); margin-bottom: 12px; line-height: 1.8; }
+    .order-total { font-family: var(--font-display); font-size: 1.3rem; color: var(--red); }
+    .order-tracking { font-family: var(--font-ui); font-size: 0.75rem; color: #a855f7; letter-spacing: 0.05em; margin-top: 8px; }
+
+    /* PROFILE FORM */
+    .profile-form { background: var(--card); border: 1px solid var(--border); padding: 32px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); }
+    .form-input { background: var(--dark); border: 1px solid var(--border); color: var(--white); font-family: var(--font-body); font-size: 0.88rem; padding: 12px 14px; outline: none; transition: border-color 0.2s; }
+    .form-input:focus { border-color: var(--red); }
+    .save-btn { background: var(--red); border: none; color: white; font-family: var(--font-ui); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 14px 28px; cursor: pointer; margin-top: 16px; transition: all 0.2s; }
+    .save-btn:hover { background: var(--red-hot); }
+
+    /* RECENTLY VIEWED */
+    .recently-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .mini-card { background: var(--card); border: 1px solid var(--border); text-decoration: none; color: var(--white); transition: transform 0.2s; }
+    .mini-card:hover { transform: translateY(-2px); }
+    .mini-img { aspect-ratio: 1; background: var(--dark); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+    .mini-info { padding: 12px; }
+    .mini-name { font-family: var(--font-ui); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+    .mini-price { font-family: var(--font-display); font-size: 1.1rem; color: var(--red); }
+
+    @media (max-width: 900px) { .account-layout { grid-template-columns: 1fr; } .account-sidebar { position: static; } .account-nav { flex-direction: row; flex-wrap: wrap; } .recently-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">NEXO<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Shop</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="cart.html" class="cart-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      BAG <span class="cart-count">0</span>
+    </a>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="menu-overlay"></div>
+<div class="side-menu">
+  <button class="menu-close">✕</button>
+  <a href="index.html">Home</a><a href="products.html">Shop</a>
+  <a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="cart.html">Bag</a>
+</div>
+
+<div class="container" id="accountWrap">
+  <div class="account-layout">
+    <aside class="account-sidebar">
+      <div class="account-avatar" id="avatarInitial">?</div>
+      <h2 class="account-name" id="accountName">Loading...</h2>
+      <p class="account-email" id="accountEmail"></p>
+      <nav class="account-nav">
+        <button class="account-nav-btn active" onclick="showTab('orders',this)">📦 My Orders</button>
+        <button class="account-nav-btn" onclick="showTab('profile',this)">👤 Profile</button>
+        <button class="account-nav-btn" onclick="showTab('viewed',this)">👁️ Recently Viewed</button>
+        <button class="account-nav-btn logout-btn" onclick="signOut()">→ Sign Out</button>
+      </nav>
+    </aside>
+    <div>
+      <!-- ORDERS -->
+      <div class="account-page active" id="tab-orders">
+        <h1 class="account-page-title">MY ORDERS</h1>
+        <p class="account-page-sub">Every order you've placed with Nexo Sells.</p>
+        <div id="ordersList"><p style="color:var(--dim)">Loading orders...</p></div>
+      </div>
+      <!-- PROFILE -->
+      <div class="account-page" id="tab-profile">
+        <h1 class="account-page-title">MY PROFILE</h1>
+        <p class="account-page-sub">Update your delivery details.</p>
+        <div class="profile-form">
+          <div class="form-grid">
+            <div class="form-group"><label>Full Name</label><input class="form-input" id="pf-name" placeholder="Your name"></div>
+            <div class="form-group"><label>Phone</label><input class="form-input" id="pf-phone" placeholder="03XX-XXXXXXX"></div>
+            <div class="form-group"><label>City</label><input class="form-input" id="pf-city" placeholder="Lahore"></div>
+            <div class="form-group"><label>Address</label><input class="form-input" id="pf-address" placeholder="Street, Area"></div>
+          </div>
+          <button class="save-btn" onclick="saveProfile()">SAVE CHANGES</button>
+        </div>
+      </div>
+      <!-- RECENTLY VIEWED -->
+      <div class="account-page" id="tab-viewed">
+        <h1 class="account-page-title">RECENTLY VIEWED</h1>
+        <p class="account-page-sub">Products you've checked out.</p>
+        <div class="recently-grid" id="recentlyGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="index.html" class="nav-logo">NEXO<span style="color:var(--red)">.</span></a><p>Streetwear for people who don't follow trends.</p></div>
+      <div class="footer-col"><h4>Shop</h4><a href="products.html">All Products</a></div>
+      <div class="footer-col"><h4>Help</h4><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></div>
+      <div class="footer-col"><h4>Follow</h4><a href="#">Instagram</a><a href="#">TikTok</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Nexo Sells.</p></div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="main.js"></script>
+<script src="products-data.js"></script>
+<script src="supabase.js"></script>
+<script>
+  let currentUser = null;
+
+  async function init() {
+    currentUser = await getCurrentUser();
+    if (!currentUser) { window.location.href = 'login.html'; return; }
+    const name = currentUser.user_metadata?.full_name || 'Customer';
+    document.getElementById('accountName').textContent = name;
+    document.getElementById('accountEmail').textContent = currentUser.email;
+    document.getElementById('avatarInitial').textContent = name[0].toUpperCase();
+    loadOrders();
+    loadProfileForm();
+    loadRecentlyViewed();
+  }
+
+  function showTab(tab, btn) {
+    document.querySelectorAll('.account-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.account-nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  async function loadOrders() {
+    const { data: orders } = await getMyOrders(currentUser.email);
+    const container = document.getElementById('ordersList');
+    if (!orders?.length) { container.innerHTML = `<div style="text-align:center;padding:60px;background:var(--card);border:1px solid var(--border)"><p style="font-family:var(--font-display);font-size:2rem;color:var(--dim);margin-bottom:16px">NO ORDERS YET</p><a href="products.html" class="btn btn-red">SHOP NOW</a></div>`; return; }
+    container.innerHTML = orders.map(o => {
+      const items = JSON.parse(o.items || '[]');
+      return `<div class="order-card">
+        <div class="order-card-header">
+          <div>
+            <p class="order-id">ORDER #${o.id?.slice(0,8).toUpperCase()}</p>
+            <p class="order-date">${new Date(o.created_at).toLocaleDateString('en-PK', { year:'numeric',month:'long',day:'numeric' })}</p>
+          </div>
+          <span class="order-badge status-${o.order_status}">${o.order_status}</span>
+        </div>
+        <div class="order-card-body">
+          <div class="order-items-list">${items.map(i => `${i.name} (${i.size}) × ${i.qty}`).join(' &nbsp;·&nbsp; ')}</div>
+          <p class="order-total">PKR ${o.total?.toLocaleString()}</p>
+          ${o.tracking_number ? `<p class="order-tracking">📦 Tracking: ${o.tracking_number}</p>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  async function loadProfileForm() {
+    const profile = await getProfile(currentUser.id);
+    if (profile) {
+      document.getElementById('pf-name').value = profile.full_name || '';
+      document.getElementById('pf-phone').value = profile.phone || '';
+      document.getElementById('pf-city').value = profile.city || '';
+      document.getElementById('pf-address').value = profile.address || '';
+    }
+  }
+
+  async function saveProfile() {
+    const { error } = await upsertProfile(currentUser.id, {
+      full_name: document.getElementById('pf-name').value,
+      phone: document.getElementById('pf-phone').value,
+      city: document.getElementById('pf-city').value,
+      address: document.getElementById('pf-address').value,
+    });
+    showToast(error ? 'Error saving profile' : 'Profile saved ✓');
+  }
+
+  function loadRecentlyViewed() {
+    const ids = getRecentlyViewed();
+    const grid = document.getElementById('recentlyGrid');
+    if (!ids.length) { grid.innerHTML = `<p style="color:var(--dim);grid-column:1/-1">Nothing viewed yet — go browse!</p>`; return; }
+    const products = ids.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
+    grid.innerHTML = products.map(p => `
+      <a href="product.html?id=${p.id}" class="mini-card">
+        <div class="mini-img">${p.emoji || '📦'}</div>
+        <div class="mini-info">
+          <p class="mini-name">${p.name}</p>
+          <p class="mini-price">PKR ${p.price.toLocaleString()}</p>
+        </div>
+      </a>`).join('');
+  }
+
+  init();
+</script>
+</body>
+</html>
