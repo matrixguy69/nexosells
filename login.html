@@ -7,190 +7,38 @@
   <link rel="stylesheet" href="style.css">
   <style>
     body { padding-top: 72px; min-height: 100vh; display: flex; flex-direction: column; }
-    .auth-page {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 24px;
-      position: relative;
-    }
-    .auth-page::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(232,0,29,0.1) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .auth-box {
-      width: 100%;
-      max-width: 440px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 48px;
-      position: relative;
-    }
-    .auth-logo {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      text-align: center;
-      margin-bottom: 8px;
-      letter-spacing: 0.05em;
-    }
+    .auth-page { flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px 24px; position: relative; }
+    .auth-page::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(232,0,29,0.08) 0%, transparent 70%); pointer-events: none; }
+    .auth-box { width: 100%; max-width: 420px; background: var(--card); border: 1px solid var(--border); padding: 48px; position: relative; z-index: 1; }
+    .auth-logo { font-family: var(--font-display); font-size: 2.5rem; text-align: center; margin-bottom: 6px; letter-spacing: 0.05em; }
     .auth-logo span { color: var(--red); }
-    .auth-tagline {
-      text-align: center;
-      color: var(--dim);
-      font-size: 0.8rem;
-      font-family: var(--font-ui);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 40px;
-    }
-
-    .auth-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: 1px solid var(--border);
-      margin-bottom: 32px;
-    }
-    .auth-tab {
-      padding: 12px;
-      background: none;
-      border: none;
-      color: var(--dim);
-      font-family: var(--font-ui);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .auth-tab.active {
-      background: var(--red);
-      color: white;
-    }
-
+    .auth-tagline { text-align: center; color: var(--dim); font-size: 0.8rem; font-family: var(--font-ui); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 36px; }
+    .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); margin-bottom: 28px; }
+    .auth-tab { padding: 12px; background: none; border: none; color: var(--dim); font-family: var(--font-ui); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .auth-tab.active { background: var(--red); color: white; }
     .auth-form { display: none; }
     .auth-form.active { display: block; }
-
-    .auth-field { margin-bottom: 16px; }
-    .auth-label {
-      display: block;
-      font-family: var(--font-ui);
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 8px;
-    }
-    .auth-input {
-      width: 100%;
-      background: var(--dark);
-      border: 1px solid var(--border);
-      color: var(--white);
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      padding: 14px 16px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
+    .auth-field { margin-bottom: 14px; }
+    .auth-label { display: block; font-family: var(--font-ui); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); margin-bottom: 7px; }
+    .auth-input { width: 100%; background: var(--dark); border: 1px solid var(--border); color: var(--white); font-family: var(--font-body); font-size: 0.9rem; padding: 13px 15px; outline: none; transition: border-color 0.2s; }
     .auth-input:focus { border-color: var(--red); }
     .auth-input::placeholder { color: var(--dim); }
-
-    .auth-btn {
-      width: 100%;
-      padding: 16px;
-      background: var(--red);
-      border: none;
-      color: white;
-      font-family: var(--font-ui);
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 8px;
-    }
+    .auth-btn { width: 100%; padding: 15px; background: var(--red); border: none; color: white; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; margin-top: 6px; }
     .auth-btn:hover { background: var(--red-hot); }
     .auth-btn:disabled { background: var(--border); cursor: not-allowed; }
-
-    .auth-divider {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin: 24px 0;
-      color: var(--dim);
-      font-family: var(--font-ui);
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-    }
-    .auth-divider::before, .auth-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .google-btn {
-      width: 100%;
-      padding: 14px;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--white);
-      font-family: var(--font-ui);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: border-color 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
+    .auth-divider { display: flex; align-items: center; gap: 14px; margin: 20px 0; color: var(--dim); font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.15em; }
+    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .google-btn { width: 100%; padding: 13px; background: none; border: 1px solid var(--border); color: var(--white); font-family: var(--font-ui); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: border-color 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .google-btn:hover { border-color: var(--dim); }
-
-    .auth-error {
-      background: rgba(232,0,29,0.1);
-      border: 1px solid rgba(232,0,29,0.3);
-      color: var(--red);
-      font-family: var(--font-ui);
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      display: none;
-    }
-    .auth-success {
-      text-align: center;
-      padding: 20px;
-    }
-    .auth-success h3 { font-family: var(--font-display); font-size: 2rem; color: var(--red); margin-bottom: 8px; }
-    .auth-success p { color: var(--dim); font-size: 0.9rem; }
-
-    .forgot-link {
-      display: block;
-      text-align: right;
-      color: var(--dim);
-      font-family: var(--font-ui);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-decoration: none;
-      margin-top: 8px;
-      transition: color 0.2s;
-    }
+    .auth-error { background: rgba(232,0,29,0.08); border: 1px solid rgba(232,0,29,0.25); color: var(--red); font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.08em; padding: 12px 15px; margin-bottom: 16px; display: none; }
+    .auth-success-msg { text-align: center; padding: 24px 0; }
+    .auth-success-msg h3 { font-family: var(--font-display); font-size: 2rem; color: var(--red); margin-bottom: 10px; }
+    .auth-success-msg p { color: var(--dim); font-size: 0.9rem; line-height: 1.7; }
+    .forgot-link { display: block; text-align: right; color: var(--dim); font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.1em; text-decoration: none; margin-top: 8px; cursor: pointer; transition: color 0.2s; background: none; border: none; }
     .forgot-link:hover { color: var(--red); }
   </style>
 </head>
 <body>
-
 <nav>
   <a href="index.html" class="nav-logo">NEXO<span>.</span></a>
   <ul class="nav-links">
@@ -210,11 +58,8 @@
 <div class="menu-overlay"></div>
 <div class="side-menu">
   <button class="menu-close">✕</button>
-  <a href="index.html">Home</a>
-  <a href="products.html">Shop</a>
-  <a href="faq.html">FAQ</a>
-  <a href="contact.html">Contact</a>
-  <a href="cart.html">Bag</a>
+  <a href="index.html">Home</a><a href="products.html">Shop</a>
+  <a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="cart.html">Bag</a>
 </div>
 
 <div class="auth-page">
@@ -223,8 +68,8 @@
     <p class="auth-tagline">Your Account</p>
 
     <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchTab('login')">Login</button>
-      <button class="auth-tab" onclick="switchTab('signup')">Sign Up</button>
+      <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Login</button>
+      <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Sign Up</button>
     </div>
 
     <div class="auth-error" id="authError"></div>
@@ -238,10 +83,9 @@
       <div class="auth-field">
         <label class="auth-label">Password</label>
         <input type="password" class="auth-input" id="loginPassword" placeholder="••••••••">
-        <a href="#" class="forgot-link" onclick="forgotPassword()">Forgot password?</a>
+        <button class="forgot-link" onclick="forgotPassword()">Forgot password?</button>
       </div>
-      <button class="auth-btn" onclick="login()">LOGIN →</button>
-
+      <button class="auth-btn" id="loginBtn" onclick="login()">LOGIN →</button>
       <div class="auth-divider">OR</div>
       <button class="google-btn" onclick="googleLogin()">
         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
@@ -263,34 +107,37 @@
         <label class="auth-label">Password</label>
         <input type="password" class="auth-input" id="signupPassword" placeholder="Min. 8 characters">
       </div>
-      <button class="auth-btn" onclick="signup()">CREATE ACCOUNT →</button>
-
+      <button class="auth-btn" id="signupBtn" onclick="signup()">CREATE ACCOUNT →</button>
       <div class="auth-divider">OR</div>
       <button class="google-btn" onclick="googleLogin()">
         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
         Continue with Google
       </button>
     </div>
-
   </div>
 </div>
 
-<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="main.js"></script>
+<script src="products-data.js"></script>
 <script src="supabase.js"></script>
 <script>
+  // If already logged in, redirect away
+  getCurrentUser().then(user => {
+    if (user) window.location.href = 'index.html';
+  });
+
   function switchTab(tab) {
-    document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0) === (tab==='login')));
     document.getElementById('loginForm').classList.toggle('active', tab === 'login');
     document.getElementById('signupForm').classList.toggle('active', tab === 'signup');
+    document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+    document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
     hideError();
   }
 
   function showError(msg) {
     const el = document.getElementById('authError');
-    el.textContent = msg;
-    el.style.display = 'block';
+    el.textContent = msg; el.style.display = 'block';
   }
   function hideError() {
     document.getElementById('authError').style.display = 'none';
@@ -301,13 +148,17 @@
     const pass = document.getElementById('loginPassword').value;
     if (!email || !pass) return showError('Enter your email and password.');
     hideError();
-
-    const btn = document.querySelector('#loginForm .auth-btn');
+    const btn = document.getElementById('loginBtn');
     btn.disabled = true; btn.textContent = 'Logging in...';
-
     const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
-    if (error) { showError(error.message); btn.disabled = false; btn.textContent = 'LOGIN →'; }
-    else { window.location.href = 'index.html'; }
+    if (error) {
+      showError(error.message);
+      btn.disabled = false; btn.textContent = 'LOGIN →';
+    } else {
+      // redirect back or to home
+      const returnTo = new URLSearchParams(window.location.search).get('return') || 'index.html';
+      window.location.href = returnTo;
+    }
   }
 
   async function signup() {
@@ -317,41 +168,58 @@
     if (!name || !email || !pass) return showError('Fill in all fields.');
     if (pass.length < 8) return showError('Password must be at least 8 characters.');
     hideError();
-
-    const btn = document.querySelector('#signupForm .auth-btn');
+    const btn = document.getElementById('signupBtn');
     btn.disabled = true; btn.textContent = 'Creating account...';
-
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email, password: pass,
       options: { data: { full_name: name } }
     });
-
-    if (error) { showError(error.message); btn.disabled = false; btn.textContent = 'CREATE ACCOUNT →'; }
-    else {
-      document.querySelector('#signupForm').innerHTML = `
-        <div class="auth-success">
+    if (error) {
+      showError(error.message);
+      btn.disabled = false; btn.textContent = 'CREATE ACCOUNT →';
+    } else {
+      // Auto create profile
+      if (data.user) {
+        await supabase.from('profiles').upsert({ id: data.user.id, full_name: name });
+      }
+      document.getElementById('signupForm').innerHTML = `
+        <div class="auth-success-msg">
           <div style="font-size:2.5rem;margin-bottom:12px">🔥</div>
           <h3>YOU'RE IN!</h3>
-          <p>Check your email to confirm your account,<br>then come back and log in.</p>
+          <p>Check your email to confirm your account, then log in.</p>
+          <button class="auth-btn" style="margin-top:20px" onclick="switchTab('login')">GO TO LOGIN</button>
         </div>`;
     }
   }
 
   async function googleLogin() {
+    hideError();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin + '/index.html' }
+      options: {
+        redirectTo: window.location.origin + '/index.html'
+      }
     });
-    if (error) showError(error.message);
+    if (error) showError('Google login failed: ' + error.message);
   }
 
   async function forgotPassword() {
     const email = document.getElementById('loginEmail').value.trim();
     if (!email) return showError('Enter your email address first.');
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/login.html'
+    });
     if (error) showError(error.message);
-    else showToast('Reset link sent to your email!');
+    else { hideError(); showToast('Password reset email sent!'); }
   }
+
+  // Enter key support
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      if (document.getElementById('loginForm').classList.contains('active')) login();
+      else signup();
+    }
+  });
 </script>
 </body>
 </html>
